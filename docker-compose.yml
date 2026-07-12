@@ -2,24 +2,28 @@ version: "3.9"
 
 services:
   server:
-    build: ./server
+    build:
+      context: ./server
     container_name: express-server
     ports:
       - "4000:4000"
+    restart: unless-stopped
     networks:
       - fullstack-net
-    restart: unless-stopped
+
   client:
-    build: ./client
+    build:
+      context: ./client
     container_name: react-client
     ports:
       - "5174:3000"
-    networks:
-      - fullstack-net
     depends_on:
       - server
     restart: unless-stopped
+    networks:
+      - fullstack-net
 
 networks:
   fullstack-net:
     driver: bridge
+    name: fullstack-net
